@@ -1,5 +1,6 @@
-#dungon rooms
-import dragon
+#Dungon Text Game
+import dragon as dragon
+
 import monsterdieroller
 import sys
 import time
@@ -15,9 +16,9 @@ Treasure Hunt Game
 ========
 Commands:
   Type in - go [direction option's north, south, east, west]
-            get [item]
+            
 ========
-You start from the north going south in to the cave:
+You start from the north going south in to the dungeon:
 ''')
     time.sleep(a)
     print()
@@ -43,27 +44,33 @@ You start from the north going south in to the cave:
 
 def showstatus():
     # print the player's current status
-    print('---------------------------')
+    print('--------------------')
     print('You are at ' + currentRoom)
     time.sleep(a)
+    print('''
+    ========
+    Commands:
+    Type in - go [direction option's north, south, east, west]
+            
+    ========''')
     # print the current inventory
-    print('Inventory : ' + str(inventory))
-    time.sleep(a)
+    #print('Inventory : ' + str(inventory))
+    #time.sleep(a)
     f = open(rooms[currentRoom]['story'],"r")
     txt = f.read()
     f.close()
     for char in txt:
-        sleep(.1)
+        sleep(.05)
         sys.stdout.write(char)
     # print an item if there is one
-    if "item" in rooms[currentRoom]:
-        print('You see a ' + rooms[currentRoom]['item'])
+    #if "item" in rooms[currentRoom]:
+        #print('You see a ' + rooms[currentRoom]['item'])
     print()
-    print("---------------------------")
+    print("--------------------")
 
-
+#main game start here
 # an inventory, which is initially empty
-inventory = []
+#inventory = []
 
 
 # a dictionary linking a room to other rooms
@@ -93,7 +100,7 @@ rooms = {
         'story' : 'room4.txt',
         'west' : 'room5',
         'south' : 'room9',
-        'item' : 'key'
+        'item' : 'sword'
         },
     'room5' : {
         'story' : 'room5.txt',
@@ -128,20 +135,19 @@ rooms = {
         'item' : 'MysticalOrb'
         },
     'room10' : {
-        'story' : 'room10.txt',
-        'north' : 'room7',
-        'item' : 'key'
+        'story' : 'treasure.txt',
+        'north' : 'room7'
         },
     'room11' : {
         ''
-        'story' : 'room11.txt',
+        'story' : 'dragon.txt',
         'north' : 'room9',
         'item' : 'dragon'
                  },
     }
 
 # start the player at the cave entrance
-currentRoom = 'room9'
+currentRoom = 'entrance'
 
 showinstructions()
 
@@ -158,9 +164,9 @@ while True:
     move = ''
     while move == '':
         move = input('What direction would you like to go? ')
-        # let them know they didn't type anything or tryped the wrong thing
+        # let them know they didn't type anything or typed the wrong thing
         if move.lower().split(" ", 1)[0] not in ['go', 'get']:
-            print('That was not a valid entry. ')
+            print('That was not a valid entry. Please type a direction such as north, south, east, or west. ')
             move = ''
     # split allows an items to have a space on them
     # get golden key is returned ["get", "golden key"]
@@ -170,48 +176,61 @@ while True:
     if move[0] == 'go':
         #check that they are allowed wherever they want to go
         if move[1] in rooms[currentRoom]:
-            if rooms[currentRoom][move[1]] == 'room10':
-                if 'key' in inventory:
-                    print('You encountered the treasure room..... YOU WIN!')
-                    break
-                else:
-                    print('You can not enter this room without a key!')
-            ## if player enter room11 with the dragon they lose
             if rooms[currentRoom][move[1]] == 'room11':
-                #drgagon.dragonart()
-                print('You entered the Dragons Cove...!!GAME OVER!!...')
-                startgame = input("Would you like to start the game? (Y?N): ")
+                #Define how a player loses
+                time.sleep(a)
+                lose = open("dragon.txt", "r")
+                print(lose.read())
+                txt = lose.read()
+                lose.close()
+                for char in txt:
+                    sleep(.05)
+                    sys.stdout.write(char)
+                drag = open('dragon.askii')
+                print(drag.read())
+                print('----------------------')
+                print()
+                startgame = input("Would you like to re-start the game? (Y?N): ")
                 if startgame == 'n' or startgame == 'N':
-                    print("Maybe next time.")
+                    print("Maybe next time. Good Bye. ")
                     break
                 if startgame == 'y' or startgame == 'Y':
                     print("Let us begin the adventure!!!!!")
                     currentRoom = 'entrance'
                     continue
+            ## Define how a player can win
+            if rooms[currentRoom][move[1]] == 'room10':
+                time.sleep(a)
+                win = open("treasure.txt", "r")
+                print(win.read())
+                txt = win.read()
+                win.close()
+                for char in txt:
+                    sleep(.05)
+                    sys.stdout.write(char)
+                print('----------------------')
+                print()
+                print('...!YOU WIN!...')
+                break
             else:
                 # set the current room to the new room
                 currentRoom = rooms[currentRoom][move[1]]
         # there is no door (link) to the new room
         else:
             print('You can\'t go that way!')
-
     ## if they type 'get' first
-    if move[0] == 'get':
+    #if move[0] == 'get':
         # if the room contains an item, and the item is the one they want to get
-        if rooms[currentRoom].get("item") is not None:
-            # add the item to their inventory
-            inventory += rooms[currentRoom].git("item")
+        ##inventory += rooms[currentRoom].get("item")
             # display a helpful message
-            print(rooms[currentRoom].git("item") + ' picked up!')
+            #print(rooms[currentRoom].get("item") + ' picked up!')
             # delete the item from the room
-            del rooms[currentRoom]['item']
+            #del rooms[currentRoom]['item']
         # otherwise, if the item isn't there to get
-        else:
+        #else:
             # tell them they can't get it
-            print('no idem found')
-
-
-    ## If a player enters a room with a monster
+            #print('no idem found')
+## If a player enters a room with a monster
     if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item']:
         result = monsterdieroller.monsterfight()
         if result <=10:
@@ -224,16 +243,15 @@ while True:
                 print("Let us begin the adventure!!!!!")
                 currentRoom = 'entrance'
                 continue
-
-
     ## If a player enters a room with a trap
     if 'item' in rooms[currentRoom] and 'trap' in rooms[currentRoom]['item']:
+        f = open(rooms[currentRoom]['story'], "r")
+        txt = f.read()
+        f.close()
+        for char in txt:
+            sleep(.05)
+            sys.stdout.write(char)
         print('You are caught in a trap, and returned to the entrance')
         ## send the plyer back to the beging of the game
         currentRoom = 'entrance'
         continue
-
-    ## Define how a player can win
-    if currentRoom == 'room10' and 'key' in inventory:
-        print('You encountered the treasure room..... YOU WIN!')
-        break

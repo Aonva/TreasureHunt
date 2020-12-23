@@ -1,0 +1,18 @@
+--------------------
+You emerge into a room with glorious patterns of floral tile on the floor.
+
+The room is lined with statues.
+
+Even though the statues are broken and somewhat deformed
+they still seem to hold a glorious beauty to them.
+
+The vines and moss seemed to cloak them as if it were clothing.
+
+The windows filled with broken stained glass allowing shimmers of
+light in various colors to reflect into the room and light your path.
+
+To the south you see a pathway.
+
+There seems to be a no other way to exit the room other than going south or
+returning the way you came.
+...

@@ -1,0 +1,14 @@
+--------------------
+You enter the room and see it scattered with bones.
+
+Remains of heroes long since fallen.
+
+The room is lit by a faint light of the blue crystals you saw in the last room.
+You can hardly see the paths in the distance.
+
+To the north, you see a path covered in vines and overgrown plant life.
+
+To the south, you see a path lined with the glowing cristal's.
+
+....
+

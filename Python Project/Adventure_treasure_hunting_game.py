@@ -8,10 +8,6 @@ a = 2
 b = 0.2
 c = 0.08
 
-
-#Monster fight and die roller random function
-
-
 #sinarios of each room
 
 def showinstructions():
